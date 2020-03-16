@@ -1,4 +1,4 @@
-# onepoint_app
+# Onepoint_app
 
 Developped on Android device.
 
