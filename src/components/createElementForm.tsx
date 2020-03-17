@@ -1,5 +1,5 @@
-import React, {useState, Dispatch} from 'react';
-import {StyleSheet} from 'react-native';
+import React, {useState, Dispatch, useRef} from 'react';
+import {StyleSheet, TouchableNativeFeedback, Image} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {Input, Button, Card} from 'react-native-elements';
 import {addElement, Action} from '../state/actions';
@@ -16,13 +16,30 @@ const CreateElementForm: React.FC = () => {
   }
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState('');
+  const inputEl = useRef<Input>(null);
 
   return (
     <Card containerStyle={{padding: 0}}>
       <Input
+        ref={inputEl}
         onChangeText={setInputValue}
         value={inputValue}
         placeholder="Type here"
+        rightIcon={
+          <TouchableNativeFeedback
+            background={TouchableNativeFeedback.SelectableBackground()}
+            onPress={() => {
+              setInputValue('');
+              if (null !== inputEl.current) {
+                inputEl.current.focus();
+              }
+            }}>
+            <Image
+              source={require('../../public/assets/png/delete_icon.png')}
+              style={styles.deleteIcon}
+            />
+          </TouchableNativeFeedback>
+        }
       />
       <Button
         title="Add Element"
@@ -40,6 +57,11 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginHorizontal: 10,
     marginVertical: 10,
+  },
+
+  deleteIcon: {
+    width: 20,
+    height: 20,
   },
 });
 
